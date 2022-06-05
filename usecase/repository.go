@@ -21,7 +21,7 @@ func NewRepo(logger log.Logger) Repository {
 
 func (repo *repo) CreateWallet(ctx context.Context, wallet Wallet) error {
 	if repo.checkWalletExistance(ctx, wallet.ID) {
-		return errors.New("Wallet with this phone number already exits")
+		return errors.New("Wallet with this phone number already exists")
 	}
 
 	repo.db[wallet.ID] = wallet.Balance
@@ -37,7 +37,7 @@ func (repo *repo) GetWallet(ctx context.Context, id string) (Wallet, error) {
 
 	if !repo.checkWalletExistance(ctx, id) {
 		wallet.Balance = -1
-		return wallet, errors.New("Wallet with this phone number not exits")
+		return wallet, errors.New("Wallet with this phone number does not exist")
 	}
 
 	return wallet, nil
