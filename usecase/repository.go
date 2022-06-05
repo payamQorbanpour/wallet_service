@@ -20,18 +20,24 @@ func NewRepo(logger log.Logger) Repository {
 }
 
 func (repo *repo) CreateWallet(ctx context.Context, wallet Wallet) error {
-	if _, exists := repo.db[wallet.ID]; !exists {
-		repo.db[wallet.ID] = wallet.Balance
-		return nil
+	if repo.checkWalletExistance(ctx, wallet.ID) {
+		return errors.New("Wallet with this phone number already exits")
 	}
 
-	return errors.New("Wallet with this phone number already exits")
+	repo.db[wallet.ID] = wallet.Balance
+
+	return nil
 }
 
 func (repo *repo) GetWallet(ctx context.Context, id string) (Wallet, error) {
 	wallet := Wallet{
 		ID:      id,
 		Balance: repo.db[id],
+	}
+
+	if !repo.checkWalletExistance(ctx, id) {
+		wallet.Balance = -1
+		return wallet, errors.New("Wallet with this phone number not exits")
 	}
 
 	return wallet, nil
@@ -47,4 +53,12 @@ func (repo *repo) ChargeWallet(ctx context.Context, id string, amount int) (Wall
 	repo.db[id] = wallet.Balance
 
 	return wallet, nil
+}
+
+func (repo *repo) checkWalletExistance(ctx context.Context, id string) bool {
+	if _, exists := repo.db[id]; exists {
+		return true
+	}
+
+	return false
 }
