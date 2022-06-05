@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"errors"
 
 	"github.com/go-kit/kit/log"
 )
@@ -19,9 +20,12 @@ func NewRepo(logger log.Logger) Repository {
 }
 
 func (repo *repo) CreateWallet(ctx context.Context, wallet Wallet) error {
-	repo.db[wallet.ID] = wallet.Balance
+	if _, exists := repo.db[wallet.ID]; !exists {
+		repo.db[wallet.ID] = wallet.Balance
+		return nil
+	}
 
-	return nil
+	return errors.New("Wallet with this phone number already exits")
 }
 
 func (repo *repo) GetWallet(ctx context.Context, id string) (Wallet, error) {
