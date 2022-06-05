@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var testsCreateWallet = []struct {
+var testsRepositoryCreateWallet = []struct {
 	name      string
 	entry     repo
 	want      Wallet
@@ -29,7 +29,7 @@ var testsCreateWallet = []struct {
 }
 
 func Test_repository_CreateWallet(t *testing.T) {
-	for _, tt := range testsCreateWallet {
+	for _, tt := range testsRepositoryCreateWallet {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			wallet := Wallet{ID: tt.want.ID, Balance: tt.want.Balance}
@@ -44,7 +44,7 @@ func Test_repository_CreateWallet(t *testing.T) {
 	}
 }
 
-var testsGetWallet = []struct {
+var testsRepositoryGetWallet = []struct {
 	name      string
 	entry     repo
 	want      Wallet
@@ -74,7 +74,7 @@ var testsGetWallet = []struct {
 }
 
 func Test_repository_GetWallet(t *testing.T) {
-	for _, tt := range testsGetWallet {
+	for _, tt := range testsRepositoryGetWallet {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := tt.entry.GetWallet(context.Background(), "09123456789")
@@ -88,7 +88,7 @@ func Test_repository_GetWallet(t *testing.T) {
 	}
 }
 
-var testsChargeWallet = []struct {
+var testsRepositoryChargeWallet = []struct {
 	name      string
 	entry     repo
 	want      Wallet
@@ -111,7 +111,7 @@ var testsChargeWallet = []struct {
 }
 
 func Test_repository_ChargeWallet(t *testing.T) {
-	for _, tt := range testsChargeWallet {
+	for _, tt := range testsRepositoryChargeWallet {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := tt.entry.ChargeWallet(context.Background(), tt.want.ID, 1)
@@ -125,7 +125,7 @@ func Test_repository_ChargeWallet(t *testing.T) {
 	}
 }
 
-var testsCheckWalletExistance = []struct {
+var testsRepositoryCheckWalletExistance = []struct {
 	name  string
 	entry repo
 	want  bool
@@ -150,7 +150,7 @@ var testsCheckWalletExistance = []struct {
 }
 
 func Test_repository_CheckWalletExistance(t *testing.T) {
-	for _, tt := range testsCheckWalletExistance {
+	for _, tt := range testsRepositoryCheckWalletExistance {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			got := tt.entry.checkWalletExistance(context.Background(), "09123456789")
