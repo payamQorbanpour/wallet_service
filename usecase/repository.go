@@ -3,6 +3,7 @@ package usecase
 import (
 	"context"
 	"errors"
+	"sync"
 
 	"github.com/go-kit/kit/log"
 )
@@ -30,6 +31,11 @@ func (repo *repo) CreateWallet(ctx context.Context, wallet Wallet) error {
 }
 
 func (repo *repo) GetWallet(ctx context.Context, id string) (Wallet, error) {
+	var mutex sync.Mutex
+
+	mutex.Lock()
+	defer mutex.Unlock()
+
 	wallet := Wallet{
 		ID:      id,
 		Balance: repo.db[id],
