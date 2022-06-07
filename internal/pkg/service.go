@@ -1,29 +1,33 @@
-package usecase
+package pkg
 
 import (
 	"context"
 	"time"
 
+	"wallet_service/internal/dto"
+	"wallet_service/internal/repository"
+	"wallet_service/internal/service"
+
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
 )
 
-type service struct {
-	repository Repository
+type walletService struct {
+	repository repository.Repository
 	logger     log.Logger
 }
 
-func NewService(repo Repository, logger log.Logger) Service {
-	return &service{
+func NewService(repo repository.Repository, logger log.Logger) service.Service {
+	return &walletService{
 		repository: repo,
 		logger:     logger,
 	}
 }
 
-func (s service) CreateWallet(ctx context.Context, balance int, phoneNumber string) (id string, err error) {
+func (s walletService) CreateWallet(ctx context.Context, balance int, phoneNumber string) (id string, err error) {
 	logger := log.With(s.logger, "method", "CreateWallet")
 
-	wallet := Wallet{
+	wallet := dto.Wallet{
 		ID:        phoneNumber,
 		Balance:   balance,
 		CreatedAt: time.Time(time.Now()),
@@ -39,7 +43,7 @@ func (s service) CreateWallet(ctx context.Context, balance int, phoneNumber stri
 	return phoneNumber, nil
 }
 
-func (s service) GetBalance(ctx context.Context, id string) (balance int, err error) {
+func (s walletService) GetBalance(ctx context.Context, id string) (balance int, err error) {
 	logger := log.With(s.logger, "method", "GetBalance")
 
 	wallet, err := s.repository.GetWallet(ctx, id)
@@ -53,7 +57,7 @@ func (s service) GetBalance(ctx context.Context, id string) (balance int, err er
 	return wallet.Balance, nil
 }
 
-func (s service) ChargeWallet(ctx context.Context, id string, amount int) (balance int, err error) {
+func (s walletService) ChargeWallet(ctx context.Context, id string, amount int) (balance int, err error) {
 	logger := log.With(s.logger, "method", "ChargeWallet")
 
 	wallet, err := s.repository.ChargeWallet(ctx, id, amount)

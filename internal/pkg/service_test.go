@@ -1,9 +1,12 @@
-package usecase
+package pkg
 
 import (
 	"context"
 	"os"
 	"testing"
+
+	"wallet_service/internal/dto"
+	"wallet_service/internal/repository"
 
 	"github.com/go-kit/kit/log"
 	"github.com/stretchr/testify/assert"
@@ -11,19 +14,19 @@ import (
 
 var testsLogicCreateWallet = []struct {
 	name      string
-	entry     service
-	want      Wallet
+	entry     walletService
+	want      dto.Wallet
 	wantError bool
 }{
 	{
 		name: "create wallet success",
-		entry: service{
-			repository: &repo{
-				db: map[string]int{},
+		entry: walletService{
+			repository: &repository.Repo{
+				DB: map[string]int{},
 			},
 			logger: log.NewLogfmtLogger(os.Stderr),
 		},
-		want: Wallet{
+		want: dto.Wallet{
 			ID:      "09123456789",
 			Balance: 1300,
 		},
@@ -31,9 +34,9 @@ var testsLogicCreateWallet = []struct {
 	},
 	{
 		name: "create wallet failure",
-		entry: service{
-			repository: &repo{
-				db: map[string]int{
+		entry: walletService{
+			repository: &repository.Repo{
+				DB: map[string]int{
 					"09123456789": 1300,
 				},
 			},
@@ -60,21 +63,21 @@ func Test_logic_CreateWallet(t *testing.T) {
 
 var testsLogicGetBalance = []struct {
 	name      string
-	entry     service
-	want      Wallet
+	entry     walletService
+	want      dto.Wallet
 	wantError bool
 }{
 	{
 		name: "get balance success",
-		entry: service{
-			repository: &repo{
-				db: map[string]int{
+		entry: walletService{
+			repository: &repository.Repo{
+				DB: map[string]int{
 					"09123456789": 1300,
 				},
 			},
 			logger: log.NewLogfmtLogger(os.Stderr),
 		},
-		want: Wallet{
+		want: dto.Wallet{
 			ID:      "09123456789",
 			Balance: 1300,
 		},
@@ -82,13 +85,13 @@ var testsLogicGetBalance = []struct {
 	},
 	{
 		name: "get balance failure",
-		entry: service{
-			repository: &repo{
-				db: map[string]int{},
+		entry: walletService{
+			repository: &repository.Repo{
+				DB: map[string]int{},
 			},
 			logger: log.NewLogfmtLogger(os.Stderr),
 		},
-		want: Wallet{
+		want: dto.Wallet{
 			ID:      "09123456789",
 			Balance: 1300,
 		},
@@ -113,21 +116,21 @@ func Test_logic_GetBalance(t *testing.T) {
 
 var testsLogicChargeWallet = []struct {
 	name      string
-	entry     service
-	want      Wallet
+	entry     walletService
+	want      dto.Wallet
 	wantError bool
 }{
 	{
 		name: "charge wallet success",
-		entry: service{
-			repository: &repo{
-				db: map[string]int{
+		entry: walletService{
+			repository: &repository.Repo{
+				DB: map[string]int{
 					"09123456789": 1300,
 				},
 			},
 			logger: log.NewLogfmtLogger(os.Stderr),
 		},
-		want: Wallet{
+		want: dto.Wallet{
 			ID:      "09123456789",
 			Balance: 1301,
 		},
@@ -135,13 +138,13 @@ var testsLogicChargeWallet = []struct {
 	},
 	{
 		name: "charge wallet failure",
-		entry: service{
-			repository: &repo{
-				db: map[string]int{},
+		entry: walletService{
+			repository: &repository.Repo{
+				DB: map[string]int{},
 			},
 			logger: log.NewLogfmtLogger(os.Stderr),
 		},
-		want: Wallet{
+		want: dto.Wallet{
 			ID:      "09123456789",
 			Balance: 1301,
 		},

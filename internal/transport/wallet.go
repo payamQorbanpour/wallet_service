@@ -1,18 +1,13 @@
-package usecase
+package transport
 
 import (
 	"context"
 	"encoding/json"
 	"net/http"
-
-	"wallet_service/usecase/dto"
+	"wallet_service/internal/dto"
 
 	"github.com/gorilla/mux"
 )
-
-func encodeResponse(ctx context.Context, w http.ResponseWriter, response interface{}) error {
-	return json.NewEncoder(w).Encode(response)
-}
 
 func decodeCreateRequest(ctx context.Context, r *http.Request) (interface{}, error) {
 	var req dto.CreateWalletRequest

@@ -1,26 +1,27 @@
-package usecase
+package repository
 
 import (
 	"context"
 	"testing"
+	"wallet_service/internal/dto"
 
 	"github.com/stretchr/testify/assert"
 )
 
 var testsRepositoryCreateWallet = []struct {
 	name      string
-	entry     repo
-	want      Wallet
+	entry     Repo
+	want      dto.Wallet
 	wantError bool
 }{
 	{
 		name: "create wallet success",
-		entry: repo{
-			db: map[string]int{
+		entry: Repo{
+			DB: map[string]int{
 				"09123456789": 1300,
 			},
 		},
-		want: Wallet{
+		want: dto.Wallet{
 			ID:      "09123456789",
 			Balance: 1300,
 		},
@@ -32,7 +33,7 @@ func Test_repository_CreateWallet(t *testing.T) {
 	for _, tt := range testsRepositoryCreateWallet {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
-			wallet := Wallet{ID: tt.want.ID, Balance: tt.want.Balance}
+			wallet := dto.Wallet{ID: tt.want.ID, Balance: tt.want.Balance}
 
 			err := tt.entry.CreateWallet(context.Background(), wallet)
 
@@ -46,19 +47,19 @@ func Test_repository_CreateWallet(t *testing.T) {
 
 var testsRepositoryGetWallet = []struct {
 	name      string
-	entry     repo
-	want      Wallet
+	entry     Repo
+	want      dto.Wallet
 	wantError bool
 }{
 	{
 		name: "get wallet success",
-		entry: repo{
-			db: map[string]int{
+		entry: Repo{
+			DB: map[string]int{
 				"09123456789": 1300,
 				"09123456780": 1400,
 			},
 		},
-		want: Wallet{
+		want: dto.Wallet{
 			ID:      "09123456789",
 			Balance: 1300,
 		},
@@ -66,8 +67,8 @@ var testsRepositoryGetWallet = []struct {
 	},
 	{
 		name: "get wallet failed",
-		entry: repo{
-			db: map[string]int{},
+		entry: Repo{
+			DB: map[string]int{},
 		},
 		wantError: true,
 	},
@@ -90,19 +91,19 @@ func Test_repository_GetWallet(t *testing.T) {
 
 var testsRepositoryChargeWallet = []struct {
 	name      string
-	entry     repo
-	want      Wallet
+	entry     Repo
+	want      dto.Wallet
 	wantError bool
 }{
 	{
 		name: "charge wallet success",
-		entry: repo{
-			db: map[string]int{
+		entry: Repo{
+			DB: map[string]int{
 				"09123456789": 1300,
 				"09123456780": 1400,
 			},
 		},
-		want: Wallet{
+		want: dto.Wallet{
 			ID:      "09123456789",
 			Balance: 1301,
 		},
@@ -127,13 +128,13 @@ func Test_repository_ChargeWallet(t *testing.T) {
 
 var testsRepositoryCheckWalletExistance = []struct {
 	name  string
-	entry repo
+	entry Repo
 	want  bool
 }{
 	{
 		name: "check wallet existance true",
-		entry: repo{
-			db: map[string]int{
+		entry: Repo{
+			DB: map[string]int{
 				"09123456789": 1300,
 				"09123456780": 1400,
 			},
@@ -142,8 +143,8 @@ var testsRepositoryCheckWalletExistance = []struct {
 	},
 	{
 		name: "check wallet existance false",
-		entry: repo{
-			db: map[string]int{},
+		entry: Repo{
+			DB: map[string]int{},
 		},
 		want: false,
 	},
