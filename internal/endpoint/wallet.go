@@ -4,12 +4,12 @@ import (
 	"context"
 
 	"wallet_service/internal/dto"
-	"wallet_service/internal/service"
+	"wallet_service/internal/pkg"
 
 	"github.com/go-kit/kit/endpoint"
 )
 
-func makeCreateWalletEndpoint(s service.Service) endpoint.Endpoint {
+func makeCreateWalletEndpoint(s pkg.Service) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (response interface{}, err error) {
 		req := request.(dto.CreateWalletRequest)
 		id, err := s.CreateWallet(ctx, req.Balance, req.PhoneNumber)
@@ -17,7 +17,7 @@ func makeCreateWalletEndpoint(s service.Service) endpoint.Endpoint {
 	}
 }
 
-func makeGetWalletEndpoint(s service.Service) endpoint.Endpoint {
+func makeGetWalletEndpoint(s pkg.Service) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (response interface{}, err error) {
 		req := request.(dto.GetBalanceRequest)
 		balance, err := s.GetBalance(ctx, req.ID)
@@ -25,7 +25,7 @@ func makeGetWalletEndpoint(s service.Service) endpoint.Endpoint {
 	}
 }
 
-func makeChargeWalletEndpoint(s service.Service) endpoint.Endpoint {
+func makeChargeWalletEndpoint(s pkg.Service) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (response interface{}, err error) {
 		req := request.(dto.ChargeWalletRequest)
 		balance, err := s.ChargeWallet(ctx, req.ID, req.Amount)

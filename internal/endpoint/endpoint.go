@@ -1,7 +1,7 @@
 package endpoint
 
 import (
-	"wallet_service/internal/service"
+	"wallet_service/internal/pkg"
 
 	"github.com/go-kit/kit/endpoint"
 )
@@ -12,7 +12,7 @@ type Endpoints struct {
 	ChargeWallet endpoint.Endpoint
 }
 
-func MakeEndpoints(s service.Service) Endpoints {
+func MakeEndpoints(s pkg.Service) Endpoints {
 	return Endpoints{
 		CreateWallet: makeCreateWalletEndpoint(s),
 		GetWallet:    makeGetWalletEndpoint(s),

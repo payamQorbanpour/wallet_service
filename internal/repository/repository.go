@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+
 	"wallet_service/internal/dto"
 
 	"github.com/go-kit/kit/log"
@@ -23,12 +24,4 @@ func NewRepo(logger log.Logger) Repository {
 		DB:     map[string]int{},
 		logger: logger,
 	}
-}
-
-func (repo *Repo) checkWalletExistance(ctx context.Context, id string) bool {
-	if _, exists := repo.DB[id]; exists {
-		return true
-	}
-
-	return false
 }

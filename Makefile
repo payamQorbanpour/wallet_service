@@ -20,3 +20,12 @@ lint: ## Lint the files
 	@ test -e $(LINT) || $(LINT_DOWNLOAD)
 	@ $(LINT) version
 	@ $(LINT) --timeout 10m run
+
+.PHONY: build
+build: ## Build development binary file
+	@ $(GO) build -race -ldflags '$(VERSION)' -o ./bin/${SERVICE_NAME} ./cmd/...
+
+.PHONY: run
+run: ## run as development reload if code changes
+	@ test -e $(COMPILEDEAMON) || $(COMPILEDEAMON_DOWNLOAD)
+	@ $(COMPILEDEAMON) --build="make build"  --command="$(GOBIN)/$(SERVICE_NAME) "

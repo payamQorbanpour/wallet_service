@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
+
 	"wallet_service/internal/endpoint"
 
 	httptransport "github.com/go-kit/kit/transport/http"

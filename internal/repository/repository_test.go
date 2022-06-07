@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"testing"
+
 	"wallet_service/internal/dto"
 
 	"github.com/stretchr/testify/assert"

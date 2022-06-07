@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"sync"
+
 	"wallet_service/internal/dto"
 )
 
@@ -46,4 +47,12 @@ func (repo *Repo) ChargeWallet(ctx context.Context, id string, amount int) (dto.
 	repo.DB[id] = wallet.Balance
 
 	return wallet, nil
+}
+
+func (repo *Repo) checkWalletExistance(ctx context.Context, id string) bool {
+	if _, exists := repo.DB[id]; exists {
+		return true
+	}
+
+	return false
 }

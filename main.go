@@ -10,15 +10,14 @@ import (
 	"wallet_service/internal/endpoint"
 	"wallet_service/internal/pkg"
 	"wallet_service/internal/repository"
-	"wallet_service/internal/service"
 	"wallet_service/internal/transport"
 
-	"github.com/go-kit/kit/log"
+	"github.com/go-kit/log"
 	"github.com/go-kit/log/level"
 )
 
 func main() {
-	var httpAddr = flag.String("http", ":8085", "http listen address")
+	var httpAddr = flag.String("http", ":8080", "http listen address")
 
 	var logger log.Logger
 	{
@@ -37,7 +36,7 @@ func main() {
 	flag.Parse()
 	ctx := context.Background()
 
-	var srv service.Service
+	var srv pkg.Service
 	{
 		repository := repository.NewRepo(logger)
 		srv = pkg.NewService(repository, logger)

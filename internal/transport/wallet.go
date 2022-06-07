@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
+
 	"wallet_service/internal/dto"
 
 	"github.com/gorilla/mux"
@@ -11,8 +12,11 @@ import (
 
 func decodeCreateRequest(ctx context.Context, r *http.Request) (interface{}, error) {
 	var req dto.CreateWalletRequest
-	err := json.NewDecoder(r.Body).Decode(&req)
-	if err != nil {
+
+	decoder := json.NewDecoder(r.Body)
+	decoder.DisallowUnknownFields()
+
+	if err := decoder.Decode(&req); err != nil {
 		return nil, err
 	}
 
@@ -32,8 +36,11 @@ func decodeGetRequest(ctx context.Context, r *http.Request) (interface{}, error)
 
 func decodeChargeRequest(ctx context.Context, r *http.Request) (interface{}, error) {
 	var req dto.ChargeWalletRequest
-	err := json.NewDecoder(r.Body).Decode(&req)
-	if err != nil {
+
+	decoder := json.NewDecoder(r.Body)
+	decoder.DisallowUnknownFields()
+
+	if err := decoder.Decode(&req); err != nil {
 		return nil, err
 	}
 
