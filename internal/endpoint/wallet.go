@@ -9,6 +9,16 @@ import (
 	"github.com/go-kit/kit/endpoint"
 )
 
+// @Summary Create wallet
+// @ID create
+// @Description Create wallet including wallet id and balance
+// @Accept json
+// @Produce json
+// @Tags Create
+// @Param request body dto.CreateWalletRequest true "Create request"
+// @Success 200 {object} dto.CreateWalletResponse
+// @Router /create [post]
+// .
 func makeCreateWalletEndpoint(s pkg.Service) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (response interface{}, err error) {
 		req := request.(dto.CreateWalletRequest)
@@ -17,6 +27,17 @@ func makeCreateWalletEndpoint(s pkg.Service) endpoint.Endpoint {
 	}
 }
 
+// @Summary Get wallet
+// @ID get
+// @Description Get wallet data by wallet id
+// @Accept json
+// @Produce json
+// @Tags Get
+// @Param request body dto.GetBalanceRequest true "Get request"
+// @Success 200 {object} dto.GetBalanceResponse
+// @Failure 404 {object} dto.Error
+// @Router /{id} [get]
+// .
 func makeGetWalletEndpoint(s pkg.Service) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (response interface{}, err error) {
 		req := request.(dto.GetBalanceRequest)
@@ -25,6 +46,17 @@ func makeGetWalletEndpoint(s pkg.Service) endpoint.Endpoint {
 	}
 }
 
+// @Summary Charge wallet
+// @ID charge
+// @Description Charge wallet balance with given amount
+// @Accept json
+// @Produce json
+// @Tags Charge
+// @Param request body dto.ChargeWalletRequest true "Charge request"
+// @Success 200 {object} dto.GetBalanceResponse
+// @Failure 404 {object} dto.Error
+// @Router /{id} [get]
+// .
 func makeChargeWalletEndpoint(s pkg.Service) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (response interface{}, err error) {
 		req := request.(dto.ChargeWalletRequest)

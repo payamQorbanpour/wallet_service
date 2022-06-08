@@ -16,6 +16,12 @@ import (
 	"github.com/go-kit/log/level"
 )
 
+// @Title Wallet Service API
+// @Version 1.0
+// @Tags Naming
+// @Host 127.0.0.1:8080
+//.
+
 func main() {
 	var httpAddr = flag.String("http", ":8080", "http listen address")
 

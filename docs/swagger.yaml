@@ -1,0 +1,89 @@
+definitions:
+  CreateWalletRequest:
+    properties:
+      balance:
+        type: integer
+      phone_number:
+        type: string
+    type: object
+  CreateWalletResponse:
+    properties:
+      id:
+        type: string
+    type: object
+  Error:
+    properties:
+      error_code:
+        type: integer
+      message:
+        type: string
+    type: object
+  GetBalanceRequest:
+    properties:
+      id:
+        type: string
+    type: object
+  GetBalanceResponse:
+    properties:
+      balance:
+        type: integer
+      id:
+        type: string
+    type: object
+host: 127.0.0.1:8080
+info:
+  contact: {}
+  title: Wallet Service API
+  version: "1.0"
+paths:
+  /{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get wallet data by wallet id
+      operationId: get
+      parameters:
+      - description: Get request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/GetBalanceRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/GetBalanceResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/Error'
+      summary: Get wallet
+      tags:
+      - Get
+  /create:
+    post:
+      consumes:
+      - application/json
+      description: Create wallet including wallet id and balance
+      operationId: create
+      parameters:
+      - description: Create request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/CreateWalletRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/CreateWalletResponse'
+      summary: Create wallet
+      tags:
+      - Create
+swagger: "2.0"
