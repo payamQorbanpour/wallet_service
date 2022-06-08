@@ -8,7 +8,7 @@ import (
 	"wallet_service/internal/dto"
 	"wallet_service/internal/repository"
 
-	"github.com/go-kit/kit/log"
+	"github.com/go-kit/log"
 	"github.com/stretchr/testify/assert"
 )
 

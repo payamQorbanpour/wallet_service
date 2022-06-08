@@ -5,7 +5,7 @@ import (
 
 	"wallet_service/internal/dto"
 
-	"github.com/go-kit/kit/log"
+	"github.com/go-kit/log"
 )
 
 type Repo struct {
