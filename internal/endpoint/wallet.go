@@ -55,7 +55,7 @@ func makeGetWalletEndpoint(s pkg.Service) endpoint.Endpoint {
 // @Param request body dto.ChargeWalletRequest true "Charge request"
 // @Success 200 {object} dto.GetBalanceResponse
 // @Failure 404 {object} dto.Error
-// @Router /{id} [get]
+// @Router /charge [post]
 // .
 func makeChargeWalletEndpoint(s pkg.Service) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (response interface{}, err error) {
