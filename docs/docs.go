@@ -16,6 +16,47 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/charge": {
+            "post": {
+                "description": "Charge wallet balance with given amount",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Charge"
+                ],
+                "summary": "Charge wallet",
+                "operationId": "charge",
+                "parameters": [
+                    {
+                        "description": "Charge request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ChargeWalletRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/GetBalanceResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
         "/create": {
             "post": {
                 "description": "Create wallet including wallet id and balance",
@@ -94,6 +135,17 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "ChargeWalletRequest": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                }
+            }
+        },
         "CreateWalletRequest": {
             "type": "object",
             "properties": {

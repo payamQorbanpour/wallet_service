@@ -1,4 +1,11 @@
 definitions:
+  ChargeWalletRequest:
+    properties:
+      amount:
+        type: integer
+      id:
+        type: string
+    type: object
   CreateWalletRequest:
     properties:
       balance:
@@ -63,6 +70,33 @@ paths:
       summary: Get wallet
       tags:
       - Get
+  /charge:
+    post:
+      consumes:
+      - application/json
+      description: Charge wallet balance with given amount
+      operationId: charge
+      parameters:
+      - description: Charge request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/ChargeWalletRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/GetBalanceResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/Error'
+      summary: Charge wallet
+      tags:
+      - Charge
   /create:
     post:
       consumes:
