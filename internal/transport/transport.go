@@ -57,6 +57,7 @@ func encodeError(_ context.Context, err error, w http.ResponseWriter) {
 	if err == nil {
 		panic("encodeError with nil error")
 	}
+
 	w.WriteHeader(model.ErrToHTTPStatus(err))
 	json.NewEncoder(w).Encode(
 		dto.Error{

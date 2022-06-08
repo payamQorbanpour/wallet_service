@@ -1,7 +1,6 @@
 ROOT = $(shell pwd)
 SERVICE_NAME = wallet_service
 GO ?= go
-OS = $(shell uname -s | tr A-Z a-z)
 export GOBIN = ${ROOT}/bin
 
 LINT = ${GOBIN}/golangci-lint
@@ -27,5 +26,4 @@ build: ## Build development binary file
 
 .PHONY: run
 run: ## run as development reload if code changes
-	@ test -e $(COMPILEDEAMON) || $(COMPILEDEAMON_DOWNLOAD)
-	@ $(COMPILEDEAMON) --build="make build"  --command="$(GOBIN)/$(SERVICE_NAME) "
+	@ $(GOBIN)/$(SERVICE_NAME)
