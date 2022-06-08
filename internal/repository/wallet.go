@@ -2,15 +2,15 @@ package repository
 
 import (
 	"context"
-	"errors"
 	"sync"
 
 	"wallet_service/internal/dto"
+	"wallet_service/internal/model"
 )
 
 func (repo *Repo) CreateWallet(ctx context.Context, wallet dto.Wallet) error {
 	if repo.checkWalletExistance(ctx, wallet.ID) {
-		return errors.New("Wallet with this phone number already exists")
+		return model.ErrWalletExists
 	}
 
 	repo.DB[wallet.ID] = wallet.Balance
@@ -31,7 +31,7 @@ func (repo *Repo) GetWallet(ctx context.Context, id string) (dto.Wallet, error) 
 
 	if !repo.checkWalletExistance(ctx, id) {
 		wallet.Balance = -1
-		return wallet, errors.New("Wallet with this phone number does not exist")
+		return wallet, model.ErrWalletDoesNotExist
 	}
 
 	return wallet, nil
