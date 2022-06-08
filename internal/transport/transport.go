@@ -59,7 +59,7 @@ func encodeError(_ context.Context, err error, w http.ResponseWriter) {
 	}
 	w.WriteHeader(model.ErrToHTTPStatus(err))
 	json.NewEncoder(w).Encode(
-		dto.General{
+		dto.Error{
 			Message:   err.Error(),
 			ErrorCode: model.ErrToCode(err),
 		},
