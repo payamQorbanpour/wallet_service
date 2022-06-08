@@ -11,13 +11,12 @@ import (
 
 	kitendpoint "github.com/go-kit/kit/endpoint"
 	httptransport "github.com/go-kit/kit/transport/http"
-	kithttp "github.com/go-kit/kit/transport/http"
 	"github.com/gorilla/mux"
 )
 
 func NewHTTPServer(ctx context.Context, endpoints endpoint.Endpoints) http.Handler {
-	options := []kithttp.ServerOption{
-		kithttp.ServerErrorEncoder(encodeError),
+	options := []httptransport.ServerOption{
+		httptransport.ServerErrorEncoder(encodeError),
 	}
 
 	r := mux.NewRouter()
