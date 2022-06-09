@@ -43,6 +43,13 @@ func NewHTTPServer(ctx context.Context, endpoints endpoint.Endpoints) http.Handl
 		options...,
 	))
 
+	r.Methods("POST").Path("/transaction").Handler(httptransport.NewServer(
+		endpoints.Transaction,
+		decodeTransactionRequest,
+		encodeResponse,
+		options...,
+	))
+
 	return r
 }
 

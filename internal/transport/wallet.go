@@ -46,3 +46,16 @@ func decodeChargeRequest(ctx context.Context, r *http.Request) (interface{}, err
 
 	return req, nil
 }
+
+func decodeTransactionRequest(ctx context.Context, r *http.Request) (interface{}, error) {
+	var req dto.TransactionRequest
+
+	decoder := json.NewDecoder(r.Body)
+	decoder.DisallowUnknownFields()
+
+	if err := decoder.Decode(&req); err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}

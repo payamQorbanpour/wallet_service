@@ -64,3 +64,22 @@ func makeChargeWalletEndpoint(s pkg.Service) endpoint.Endpoint {
 		return dto.GetBalanceResponse{ID: req.ID, Balance: balance}, err
 	}
 }
+
+// @Summary Transaction
+// @ID transaction
+// @Description Make wallets transaction to send an amount from a wallet to another
+// @Accept json
+// @Produce json
+// @Tags Transaction
+// @Param request body dto.TransactionRequest true "Transaction request"
+// @Success 200 {object} dto.GetBalanceResponse
+// @Failure 404 {object} dto.Error
+// @Router /transaction [post]
+// .
+func makeTransactionEndpoint(s pkg.Service) endpoint.Endpoint {
+	return func(ctx context.Context, request interface{}) (response interface{}, err error) {
+		req := request.(dto.TransactionRequest)
+		balance, err := s.Transaction(ctx, req.From, req.To, req.Amount)
+		return dto.GetBalanceResponse{ID: req.To, Balance: balance}, err
+	}
+}

@@ -15,8 +15,9 @@ type Repo struct {
 
 type Repository interface {
 	CreateWallet(ctx context.Context, wallet dto.Wallet) error
-	GetWallet(ctx context.Context, id string) (dto.Wallet, error)
-	ChargeWallet(ctx context.Context, id string, amount int) (dto.Wallet, error)
+	GetWallet(ctx context.Context, id string) (*dto.Wallet, error)
+	ChargeWallet(ctx context.Context, id string, amount int) (*dto.Wallet, error)
+	Transaction(ctx context.Context, id, destinationID string, amount int) (*dto.Wallet, error)
 }
 
 func NewRepo(logger log.Logger) Repository {
