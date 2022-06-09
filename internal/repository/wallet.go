@@ -19,11 +19,6 @@ func (repo *Repo) CreateWallet(ctx context.Context, wallet dto.Wallet) error {
 }
 
 func (repo *Repo) GetWallet(ctx context.Context, id string) (*dto.Wallet, error) {
-	var mutex sync.Mutex
-
-	mutex.Lock()
-	defer mutex.Unlock()
-
 	wallet := dto.Wallet{
 		ID:      id,
 		Balance: repo.DB[id],
@@ -38,6 +33,11 @@ func (repo *Repo) GetWallet(ctx context.Context, id string) (*dto.Wallet, error)
 }
 
 func (repo *Repo) ChargeWallet(ctx context.Context, id string, amount int) (*dto.Wallet, error) {
+	var mutex sync.Mutex
+
+	mutex.Lock()
+	defer mutex.Unlock()
+
 	wallet, err := repo.GetWallet(ctx, id)
 	if err != nil {
 		return nil, err
@@ -50,6 +50,11 @@ func (repo *Repo) ChargeWallet(ctx context.Context, id string, amount int) (*dto
 }
 
 func (repo *Repo) Transaction(ctx context.Context, id, destinationID string, amount int) (*dto.Wallet, error) {
+	var mutex sync.Mutex
+
+	mutex.Lock()
+	defer mutex.Unlock()
+
 	wallet, err := repo.GetWallet(ctx, id)
 	if err != nil {
 		return nil, err

@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"sync"
 	"testing"
 
 	"wallet_service/internal/dto"
@@ -160,4 +161,31 @@ func Test_repository_CheckWalletExistance(t *testing.T) {
 			assert.Equal(t, tt.want, got)
 		})
 	}
+}
+
+func Test_repository_GetWalletLock(t *testing.T) {
+	t.Run(testsRepositoryGetWallet[0].name, func(t *testing.T) {
+		var wg sync.WaitGroup
+
+		for i := 0; i < 30; i++ {
+			wg.Add(2)
+
+			go func() {
+				defer wg.Done()
+
+				_, _ = testsRepositoryGetWallet[0].entry.Transaction(context.Background(), "09123456789", "09123456780", 50)
+			}()
+			go func() {
+				defer wg.Done()
+
+				_, _ = testsRepositoryGetWallet[0].entry.ChargeWallet(context.Background(), "09123456789", 50)
+			}()
+		}
+
+		wg.Wait()
+
+		got, _ := testsRepositoryGetWallet[0].entry.GetWallet(context.Background(), "09123456789")
+
+		assert.Equal(t, 1300, got.Balance)
+	})
 }
