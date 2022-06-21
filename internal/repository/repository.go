@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"sync"
 
 	"wallet_service/internal/dto"
 
@@ -11,6 +12,7 @@ import (
 type Repo struct {
 	DB     map[string]int
 	logger log.Logger
+	mu     sync.Mutex
 }
 
 type Repository interface {
