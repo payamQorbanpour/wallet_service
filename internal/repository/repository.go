@@ -26,5 +26,6 @@ func NewRepo(logger log.Logger) Repository {
 	return &Repo{
 		DB:     map[string]int{},
 		logger: logger,
+		mu:     sync.Mutex{},
 	}
 }
